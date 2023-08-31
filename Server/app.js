@@ -1,8 +1,10 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
-const routes = require("./api/routes/index");
-const leaveRoute = require("./api/routes/login/leave-management");
+const employeeLogin = require("./api/routes/login/employee-login");
+const department = require("./api/routes/department/index");
+const leaveType = require("./api/routes/leave-type/index");
+const employeePersonalDetail = require("./api/routes/employee-details/personalinfo");
 const { RESPONSE_MESSAGE, API_CONFIG } = require("./api/constant");
 
 require("dotenv").config();
@@ -36,8 +38,10 @@ app.use(
   })
 );
 
-app.use("/api", routes);
-app.use("/leave_management", leaveRoute);
+app.use("/login", employeeLogin);
+app.use("/department", department);
+app.use("/leaveType", leaveType);
+app.use("/employee", employeePersonalDetail);
 
 app.use((req, res, next) => {
   const error = new Error(RESPONSE_MESSAGE?.NOT_FOUND);

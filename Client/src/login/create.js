@@ -10,11 +10,11 @@ const CreateUser = () => {
   });
   const apiPostFetch = async () => {
     const payload = {
-      emp_id: userNameAndPassword?.emp_id,
+      empId: userNameAndPassword?.emp_id,
       password: userNameAndPassword?.password,
       isAdmin: userNameAndPassword?.isAdmin,
     };
-    await fetch("http://localhost:3000/leave_management/create", {
+    await fetch("http://localhost:4000/login/create", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
