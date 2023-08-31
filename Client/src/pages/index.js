@@ -6,11 +6,11 @@ const DashBoard = () => {
     apiPostFetch();
   }, []);
   const apiPostFetch = async () => {
-    await fetch("http://localhost:4000/employee/")
+    await fetch("http://localhost:4000/employee")
       .then((res) => res.json())
       .then((res) => {
         if (res?.status === 200) {
-          setUserDtails(res?.body);
+          setUserDtails(res?.response);
         }
       })
       .catch((err) => console.error("err1", err));

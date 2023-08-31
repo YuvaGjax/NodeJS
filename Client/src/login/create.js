@@ -6,13 +6,11 @@ const CreateUser = () => {
   const [userNameAndPassword, setUserNameAndPassword] = useState({
     emp_id: "",
     password: "",
-    isAdmin: false,
   });
   const apiPostFetch = async () => {
     const payload = {
       empId: userNameAndPassword?.emp_id,
       password: userNameAndPassword?.password,
-      isAdmin: userNameAndPassword?.isAdmin,
     };
     await fetch("http://localhost:4000/login/create", {
       method: "POST",
@@ -54,33 +52,6 @@ const CreateUser = () => {
           })
         }
       />
-      <p>Admin:</p>
-      <input
-        type="radio"
-        id="tru"
-        name="true"
-        value={userNameAndPassword?.isAdmin}
-        onChange={() =>
-          setUserNameAndPassword({
-            ...userNameAndPassword,
-            isAdmin: true,
-          })
-        }
-      />
-      <label for="true">true</label>
-      <input
-        type="radio"
-        id="false"
-        name="false"
-        value={!userNameAndPassword?.isAdmin}
-        onChange={() =>
-          setUserNameAndPassword({
-            ...userNameAndPassword,
-            isAdmin: false,
-          })
-        }
-      />
-      <label for="false">false</label>
       <button onClick={apiPostFetch}>Create</button>
     </>
   );

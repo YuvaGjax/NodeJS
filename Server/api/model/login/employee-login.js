@@ -10,4 +10,4 @@ const login = mongoose.Schema({
   password: { type: String, required: true },
 });
 
-module.exports = mongoose.model("leave_management_login", login);
+module.exports = mongoose.model("EmployeeLogin", login);
