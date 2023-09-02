@@ -5,7 +5,7 @@ const login = mongoose.Schema({
   empId: {
     type: String,
     required: true,
-    unique: "Username is already Exists",
+    unique: true,
   },
   password: { type: String, required: true },
 });

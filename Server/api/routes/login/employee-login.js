@@ -11,24 +11,35 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+// Sign Up
 router.post("/create", (req, res) => {
+  const empId = req?.body?.empId;
   const login = new EmployeeLoginModel({
     _id: new mongoose.Types.ObjectId(),
     empId: req.body.empId,
     password: req.body.password,
   });
-  login
-    .save()
-    .then((result) =>
-      res.status(200).json({
-        status: 200,
-        message: "created Successfull",
-        response: result,
-      })
-    )
+  EmployeeLoginModel.findOne({ empId: empId })
+    .then((body) => {
+      if (body) {
+        res.send("404", { status: 404, message: "Emp Id already Exits" });
+      } else {
+        login
+          .save()
+          .then((result) =>
+            res.status(200).json({
+              status: 200,
+              message: "created Successfull",
+              response: result,
+            })
+          )
+          .catch((err) => res.status(500).json({ error: err }));
+      }
+    })
     .catch((err) => res.status(500).json({ error: err }));
 });
 
+// Sign In
 router.post("/", (req, res) => {
   const empId = req?.body?.empId;
   const password = req?.body?.password;
