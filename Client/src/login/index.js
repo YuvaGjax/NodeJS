@@ -22,6 +22,7 @@ const Login = () => {
       .then((res) => res.json())
       .then((res) => {
         if (res?.status === 200) {
+          localStorage.setItem("access_token", res?.access_token);
           navigate("/dashboard");
         }
       })

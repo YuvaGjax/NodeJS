@@ -6,7 +6,12 @@ const DashBoard = () => {
     apiPostFetch();
   }, []);
   const apiPostFetch = async () => {
-    await fetch("http://localhost:4000/employee")
+    await fetch("http://localhost:4000/employee", {
+      method: "GET",
+      headers: {
+        authorization: localStorage.getItem("access_token"),
+      },
+    })
       .then((res) => res.json())
       .then((res) => {
         if (res?.status === 200) {

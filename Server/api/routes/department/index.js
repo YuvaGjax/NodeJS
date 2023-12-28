@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
+const auth = require("../../../middleware/auth");
 const DepartmentModel = require("../../model/department/index");
 const VISIBLE_CONTENT = "_id name";
 
-router.post("/create", (req, res) => {
+router.post("/create", auth, async (req, res) => {
   const departmentModel = new DepartmentModel({
     _id: new mongoose.Types.ObjectId(),
     name: req.body.name,
@@ -15,7 +16,7 @@ router.post("/create", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-router.get("/", (req, res) => {
+router.get("/", auth, async (req, res) => {
   DepartmentModel.find()
     .select(VISIBLE_CONTENT)
     .exec()
@@ -23,7 +24,7 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   const id = req.params.id;
   DepartmentModel.findById(id)
     .select(VISIBLE_CONTENT)
@@ -32,7 +33,7 @@ router.get("/:id", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-router.delete("/delete/:id", (req, res) => {
+router.delete("/delete/:id", auth, async (req, res) => {
   const id = req.params.id;
   DepartmentModel.deleteOne({ _id: id })
     .exec()

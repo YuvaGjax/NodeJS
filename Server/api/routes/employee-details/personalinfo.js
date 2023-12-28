@@ -2,10 +2,11 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const PersonInfoModel = require("../../model/employee-details/personalInfo");
+const auth = require("../../../middleware/auth");
 const VISIBLE_CONTENT =
   "_id empName empId email phoneNumber gender dob departmentName departmentId";
 
-router.post("/create", (req, res) => {
+router.post("/create", auth, async (req, res) => {
   const personInfoModel = new PersonInfoModel({
     _id: new mongoose.Types.ObjectId(),
     empName: req.body.empName,
@@ -23,7 +24,7 @@ router.post("/create", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-router.get("/", (req, res) => {
+router.get("/", auth, async (req, res) => {
   PersonInfoModel.find()
     .select(VISIBLE_CONTENT)
     .exec()
@@ -31,7 +32,7 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-router.get("/:id", (req, res) => {
+router.get("/:id", auth, async (req, res) => {
   const id = req.params.id;
   PersonInfoModel.findById(id)
     .select(VISIBLE_CONTENT)
@@ -40,7 +41,7 @@ router.get("/:id", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-router.patch("/update/:id", (req, res) => {
+router.patch("/update/:id", auth, async (req, res) => {
   const id = req.params.id;
   PersonInfoModel.updateOne({ _id: id }, req.body)
     .select(VISIBLE_CONTENT)
@@ -51,7 +52,7 @@ router.patch("/update/:id", (req, res) => {
     .catch((err) => res.status(500).json({ error: err }));
 });
 
-router.delete("/delete/:id", (req, res) => {
+router.delete("/delete/:id", auth, async (req, res) => {
   const id = req.params.id;
   PersonInfoModel.deleteOne({ _id: id })
     .exec()

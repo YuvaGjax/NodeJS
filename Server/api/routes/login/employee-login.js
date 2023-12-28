@@ -2,8 +2,10 @@ const express = require("express");
 const router = express.Router();
 const mongoose = require("mongoose");
 const EmployeeLoginModel = require("../../model/login/employee-login");
+const jwt = require("jsonwebtoken");
+const auth = require("./../../../middleware/auth");
 
-router.get("/", (req, res) => {
+router.get("/", auth, async (req, res) => {
   EmployeeLoginModel.find()
     .select("_id empId password")
     .exec()
@@ -43,16 +45,19 @@ router.post("/create", (req, res) => {
 router.post("/", (req, res) => {
   const empId = req?.body?.empId;
   const password = req?.body?.password;
+  const secretKey = process.env.ACCESS_TOKEN;
+  const token = jwt.sign({ empId: empId }, secretKey, { expiresIn: "10s" });
   //   checking emp_id exists
   EmployeeLoginModel.findOne({ empId: empId })
     .select("_id empId password")
     .then((body) => {
       if (body) {
         if (password === body?.password) {
-          res.status(200).json({
+          res.status(200).send({
             status: 200,
             message: "Logged In",
             response: body,
+            access_token: token,
           });
         } else {
           res.send("404", { status: 404, message: "Incorrect Password" });
