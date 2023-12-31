@@ -9,9 +9,7 @@ const { RESPONSE_MESSAGE, API_CONFIG } = require("./api/constant");
 
 require("dotenv").config();
 
-const userName = process.env.DB_USERNAME;
-const password = process.env.DB_PASSWORD;
-const DB_CONNECTION_URL = `mongodb+srv://${userName}:${password}@cluster0.cxlprks.mongodb.net/api`;
+const DB_CONNECTION_URL = process.env.DB_CONNECTION_URL;
 
 try {
   mongoose.connect(DB_CONNECTION_URL);
